@@ -6,7 +6,7 @@
   <version>0.1.0</version>
   <license>AGPL</license>
   <author>Dennis Brakhane</author>
-  <namespace>Fulltextsearch_AdminAPI</namespace>
+  <namespace>FullTextSearch_AdminAPI</namespace>
   <website>https://github.com/wechange-eg/nextcloud-custom-apps</website>
   <dependencies>
     <nextcloud min-version="18" max-version="18" />

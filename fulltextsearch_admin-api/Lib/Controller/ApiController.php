@@ -1,35 +1,18 @@
 <?php
 declare(strict_types=1);
 
-
 namespace OCA\FullTextSearch_AdminAPI\Controller;
 
 use daita\MySmallPhpTools\Traits\Nextcloud\TNCDataResponse;
 use Exception;
 use OCA\FullTextSearch\AppInfo\Application;
-#use OCA\FullTextSearch\Model\SearchRequest;
+use OCA\FullTextSearch\Model\SearchRequest;
 use OCA\FullTextSearch\Service\ConfigService;
 use OCA\FullTextSearch\Service\MiscService;
 use OCA\FullTextSearch\Service\SearchService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
-
-class SearchRequest extends OCA\FullTextSearch\Model\SearchRequest {
-    /** @var string */
-    private $user = '';
-
-    public function setUser(string $user): ISearchRequest {
-        $this->user = user;
-
-        return $this;
-    }
-
-    public function getUser(): str {
-        return $this->user;
-    }
-
-}
 
 
 /**
@@ -60,11 +43,10 @@ class ApiController extends Controller {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRequest $request, ConfigService $configService, SearchService $searchService,
+		IRequest $request, ConfigService $configService,
 		MiscService $miscService
 	) {
 		parent::__construct(Application::APP_NAME, $request);
-		$this->searchService = $searchService;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
 	}
@@ -85,9 +67,10 @@ class ApiController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
-	private function searchDocuments(SearchRequest $request): DataResponse {
+	private function searchDocuments(SearchRequestWithUser $request): DataResponse {
 		try {
-			$result = $this->searchService->search($request->user, $request);
+			\OC::$server->getUserSession()->setUser(\OC::$server->getUserManager()->get($request->getAuthor()));
+			$result = \OC::$server->query("OCA\FullTextSearch\Service\SearchService")->search($request->getAuthor(), $request);
 
 			return $this->success(
 				$result,
