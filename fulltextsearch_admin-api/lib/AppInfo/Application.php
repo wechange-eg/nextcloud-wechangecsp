@@ -19,7 +19,7 @@ class Application extends App {
             return new \OCA\FullTextSearch_AdminAPI\Service\SearchMappingService(
                 $c->query(ConfigService::class),
                 $c->query(MiscService::class)
-            )
+            );
         });
     }
 
