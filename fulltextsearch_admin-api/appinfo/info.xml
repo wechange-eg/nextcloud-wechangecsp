@@ -11,9 +11,4 @@
   <dependencies>
     <nextcloud min-version="18" max-version="18" />
   </dependencies>
-
-	<fulltextsearch>
-		<platform>OCA\FullTextSearch_AdminAPI\Platform\ElasticSearchPlatform</platform>
-	</fulltextsearch>
-
 </info>

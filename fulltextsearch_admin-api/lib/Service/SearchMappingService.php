@@ -10,10 +10,9 @@ use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
 
 class SearchMappingService extends \OCA\FullTextSearch_Elasticsearch\Service\SearchMappingService {
     public function generateSearchQuery(
-		ISearchRequest $request, IDocumentAccess $access, string $providerId
+        ISearchRequest $request, IDocumentAccess $access, string $providerId
 	): array {
         $query = parent::generateSearchQuery($request, $access, $providerId);
-        1/0;
         return $query;
 	}
 }

@@ -1,3 +1,4 @@
+
 <?php
 
 declare(strict_types=1);
@@ -9,18 +10,20 @@ use OCA\FullTextSearch_ElasticSearch\Service\ConfigService;
 use OCA\FullTextSearch_ElasticSearch\Service\MiscService;
 
 class Application extends App {
+    const APP_NAME = 'FullTextSearch_AdminAPI';
 
     public function __construct() {
-        parent::__construct('FullTextSearch_AdminAPI');
+        parent::__construct(self::APP_NAME);
+    }
 
-        $container = $this->getContainer();
+    public function registerClasses(): void {
+        # force loading of elasticsearch app
+        \OC::$server->query(\OCA\FullTextSearch_ElasticSearch\Service\SearchMappingService::class);
 
-        $container->registerService(\OCA\FullTextSearch_ElasticSearch\Service\SearchMappingService::class, function (IContainer $c) {
-            return new \OCA\FullTextSearch_AdminAPI\Service\SearchMappingService(
-                $c->query(ConfigService::class),
-                $c->query(MiscService::class)
-            );
-        });
+        $container = \OC::$server->getRegisteredAppContainer('FullTextSearch_ElasticSearch');
+
+        $container->registerAlias("OCA\FullTextSearch_ElasticSearch\Service\SearchMappingService", "OCA\FullTextSearch_AdminAPI\Service\SearchMappingService");
+        $container->registerAlias("OCA\FullTextSearch_ElasticSearch\Service\IndexMappingService", "OCA\FullTextSearch_AdminAPI\Service\IndexMappingService");
     }
 
 }
