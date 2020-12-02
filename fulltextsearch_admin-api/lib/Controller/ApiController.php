@@ -70,7 +70,7 @@ class ApiController extends Controller {
     private function searchDocuments(SearchRequest $request): DataResponse {
         try {
             // HACK: SearchService (in fulltextsearch addon) will call FilesProvider#improveSearchResults (in files_fulltextsearch)
-            // which will instantiate a files_fulltextsearch version of SearchService, that version will get the current userId
+             // which will instantiate a files_fulltextsearch version of SearchService, that version will get the current userId
             // during initialization, and use that. So we have to make sure that the current user id is the one we want.
             // Therefore, we first set the user in the session, and then request the SearchService (from fulltextsearch). This
             // seems to work and cause the files_fulltextsearch version of SearchService to get the userId we want.
