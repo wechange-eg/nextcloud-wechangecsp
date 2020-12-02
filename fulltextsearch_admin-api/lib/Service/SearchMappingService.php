@@ -9,10 +9,14 @@ use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
 
 class SearchMappingService extends \OCA\FullTextSearch_Elasticsearch\Service\SearchMappingService {
-    public function generateSearchQuery(
+    public function generateSearchQueryParams(
         ISearchRequest $request, IDocumentAccess $access, string $providerId
 	): array {
-        $query = parent::generateSearchQuery($request, $access, $providerId);
-        return $query;
+        $params = parent::generateSearchQueryParams($request, $access, $providerId);
+        $sort = $request->getOptionArray('sort');
+        if ($sort) {
+            $params['body']['sort'] = $sort;
+        }
+        return $params;
 	}
 }
