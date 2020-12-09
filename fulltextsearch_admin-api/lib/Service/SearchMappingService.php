@@ -15,6 +15,9 @@ class SearchMappingService extends \OCA\FullTextSearch_Elasticsearch\Service\Sea
         ISearchRequest $request, IDocumentAccess $access, string $providerId
 	): array {
         $params = parent::generateSearchQueryParams($request, $access, $providerId);
+        // filter out files without a name/title (these can occur if we do an empty search)
+        // and the SearchService then gets confused trying to get a nonexisitant file.
+        $params['body']['query']['bool']['filter'][]['bool']['must_not']['term']['title'] = '';
         $sort = $request->getOptionArray('sort');
         if ($sort) {
             $params['body']['sort'] = $sort;
