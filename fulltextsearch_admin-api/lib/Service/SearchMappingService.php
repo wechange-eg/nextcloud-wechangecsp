@@ -6,8 +6,10 @@ namespace OCA\FullTextSearch_AdminAPI\Service;
 
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\ISearchRequest;
-use OCP\FullTextSearch\Model\ISearchRequestSimpleQuery;
 
+/**
+ * Extend the SearchMappingService to support sorting of results
+ */
 class SearchMappingService extends \OCA\FullTextSearch_Elasticsearch\Service\SearchMappingService {
     public function generateSearchQueryParams(
         ISearchRequest $request, IDocumentAccess $access, string $providerId
